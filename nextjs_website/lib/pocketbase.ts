@@ -1,6 +1,6 @@
 import PocketBase from "pocketbase";
 
-export const pb = new PocketBase("http://192.168.0.15:8090");
+export const pb = new PocketBase("https://pb.markraabjerg.blog");
 
 
 
