@@ -41,6 +41,7 @@ export default function LoginPage() {
 
     router.push("/upload");
     router.refresh();
+    
   } catch (err: any) {
     console.error("========== LOGIN FAILED ==========");
     console.error("Full error:", err);
