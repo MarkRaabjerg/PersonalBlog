@@ -18,7 +18,7 @@ export default function LoginPage() {
   console.log("========== LOGIN START ==========");
   console.log("Email:", email);
   console.log("PocketBase baseURL:", pb.baseURL);
-  console.log("PocketBase authStore valid:", pb.authStore.isValid);
+  //console.log("PocketBase authStore valid:", pb.authStore.isValid);
   console.log("Current page:", window.location.href);
   console.log("User agent:", navigator.userAgent);
 
@@ -51,7 +51,7 @@ export default function LoginPage() {
     console.error("Error response:", err?.response);
     console.error("Error data:", err?.data);
     console.error("PocketBase baseURL:", pb.baseURL);
-    //console.error("AuthStore valid:", pb.authStore.isValid.toString());
+    console.error("AuthStore valid:", pb.authStore.isValid.toString());
 
     setError(
       err?.response?.message ||
