@@ -47,8 +47,7 @@ export default function LoginPage() {
       setLoading(false);
     }
   }
-}
-
+  
   return (
     <main className="min-h-screen bg-[#f5f5f7] text-[#1d1d1f]">
       <div className="flex min-h-screen items-center justify-center px-6">
