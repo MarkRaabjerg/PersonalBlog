@@ -23,11 +23,18 @@ export default function LoginPage() {
 
       router.push("/upload");
       router.refresh();
-    } catch (err) {
-      console.error(err);
+    } 
+    catch (err: any) {
+      console.error("LOGIN ERROR:", err);
+      console.error("LOGIN RESPONSE:", err?.response);
 
-      setError("Incorrect email or password.");
-    } finally {
+      setError(
+        err?.response?.message
+          ? err.response.message
+          : "Could not connect to PocketBase."
+      );
+    }
+    finally {
       setLoading(false);
     }
   }
