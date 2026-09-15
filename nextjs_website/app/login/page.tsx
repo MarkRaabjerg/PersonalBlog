@@ -13,31 +13,55 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  e.preventDefault();
 
-    setError("");
-    setLoading(true);
+  console.log("========== LOGIN START ==========");
+  console.log("Email:", email);
+  console.log("PocketBase baseURL:", pb.baseURL);
+  console.log("PocketBase authStore valid:", pb.authStore.isValid);
+  console.log("Current page:", window.location.href);
+  console.log("User agent:", navigator.userAgent);
 
-    try {
-      await pb.collection("users").authWithPassword(email, password);
+  setError("");
+  setLoading(true);
 
-      router.push("/upload");
-      router.refresh();
-    } 
-    catch (err: any) {
-      console.error("LOGIN ERROR:", err);
-      console.error("LOGIN RESPONSE:", err?.response);
+  try {
+    console.log("Sending auth request...");
 
-      setError(
-        err?.response?.message
-          ? err.response.message
-          : "Could not connect to PocketBase."
-      );
-    }
-    finally {
-      setLoading(false);
-    }
+    const authData = await pb
+      .collection("users")
+      .authWithPassword(email, password);
+
+    console.log("========== LOGIN SUCCESS ==========");
+    console.log("Auth data:", authData);
+    console.log("Token exists:", !!authData.token);
+    console.log("Authenticated record:", authData.record);
+    console.log("AuthStore valid:", pb.authStore.isValid);
+    console.log("AuthStore model:", pb.authStore.record);
+
+    router.push("/upload");
+    router.refresh();
+  } catch (err: any) {
+    console.error("========== LOGIN FAILED ==========");
+    console.error("Full error:", err);
+    console.error("Error name:", err?.name);
+    console.error("Error message:", err?.message);
+    console.error("Error status:", err?.status);
+    console.error("Error response:", err?.response);
+    console.error("Error data:", err?.data);
+    console.error("PocketBase baseURL:", pb.baseURL);
+    console.error("AuthStore valid:", pb.authStore.isValid);
+
+    setError(
+      err?.response?.message ||
+        err?.message ||
+        "Could not connect to PocketBase."
+    );
+  } finally {
+    console.log("========== LOGIN FINISHED ==========");
+    setLoading(false);
   }
+}
 
   return (
     <main className="min-h-screen bg-[#f5f5f7] text-[#1d1d1f]">
