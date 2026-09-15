@@ -38,6 +38,13 @@ export default async function Home() {
         {events.map((event) => {
           const imageUrl = pb.files.getURL(event, event.Cover_Image);
 
+          console.log(
+            "IMAGE URL:",
+            event.Cover_Image
+              ? pb.files.getURL(event, event.Cover_Image)
+              : "NO IMAGE"
+          );
+
           return (
             <article
               key={event.id}
