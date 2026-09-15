@@ -51,7 +51,7 @@ export default function LoginPage() {
     console.error("Error response:", err?.response);
     console.error("Error data:", err?.data);
     console.error("PocketBase baseURL:", pb.baseURL);
-    console.error("AuthStore valid:", pb.authStore.isValid.toString());
+    //console.error("AuthStore valid:", pb.authStore.isValid.toString());
 
     setError(
       err?.response?.message ||
