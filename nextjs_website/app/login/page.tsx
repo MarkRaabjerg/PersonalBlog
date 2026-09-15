@@ -13,53 +13,39 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
-  e.preventDefault();
+    e.preventDefault();
 
-  console.log("========== LOGIN START ==========");
-  console.log("Email:", email);
-  console.log("PocketBase baseURL:", pb.baseURL);
-  console.log("Current page:", window.location.href);
-  console.log("User agent:", navigator.userAgent);
+    console.log("========== TEST START ==========");
 
-  setError("");
-  setLoading(true);
+    console.log("1. Email:", email);
 
-  try {
-    console.log("Sending auth request...");
+    console.log("2. PocketBase object:", pb);
 
-    const authData = await pb
-      .collection("users")
-      .authWithPassword(email, password);
+    console.log("3. PocketBase URL:", pb.baseURL);
 
-    console.log("========== LOGIN SUCCESS ==========");
-    console.log("Auth data:", authData);
-    console.log("Token exists:", !!authData.token);
-    console.log("Authenticated record:", authData.record);
-    console.log("AuthStore valid:", pb.authStore.isValid);
-    console.log("AuthStore model:", pb.authStore.record);
+    console.log("4. Window exists:", typeof window !== "undefined");
 
-    router.push("/upload");
-    router.refresh();
+    console.log("5. Current URL:", window.location.href);
 
-  } catch (err: any) {
-    console.error("========== LOGIN FAILED ==========");
-    console.error("Full error:", err);
-    console.error("Error name:", err?.name);
-    console.error("Error message:", err?.message);
-    console.error("Error status:", err?.status);
-    console.error("Error response:", err?.response);
-    console.error("Error data:", err?.data);
-    console.error("PocketBase baseURL:", pb.baseURL);
-    console.error("AuthStore valid:", pb.authStore.isValid.toString());
+    console.log("6. About to call PocketBase");
 
-    setError(
-      err?.response?.message ||
-        err?.message ||
-        "Could not connect to PocketBase."
-    );
-  } finally {
-    console.log("========== LOGIN FINISHED ==========");
-    setLoading(false);
+    setLoading(true);
+
+    try {
+      const authData = await pb
+        .collection("users")
+        .authWithPassword(email, password);
+
+      console.log("7. LOGIN SUCCESS");
+      console.log(authData);
+
+      router.push("/upload");
+    } catch (err) {
+      console.error("7. LOGIN FAILED");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }
 }
 
