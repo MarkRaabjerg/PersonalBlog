@@ -1,13 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ['markraabjerg.blog', 'markraabjerg.blog/login'],
+  allowedDevOrigins: ["markraabjerg.blog"],
+
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "127.0.0.1",
-        port: "8090",
+        protocol: "https",
+        hostname: "pb.markraabjerg.blog",
         pathname: "/api/files/**",
       },
     ],
