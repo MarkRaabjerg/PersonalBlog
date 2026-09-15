@@ -41,7 +41,7 @@ export default function LoginPage() {
 
     router.push("/upload");
     router.refresh();
-    
+
   } catch (err: any) {
     console.error("========== LOGIN FAILED ==========");
     console.error("Full error:", err);
@@ -51,7 +51,7 @@ export default function LoginPage() {
     console.error("Error response:", err?.response);
     console.error("Error data:", err?.data);
     console.error("PocketBase baseURL:", pb.baseURL);
-    console.error("AuthStore valid:", pb.authStore.isValid);
+    console.error("AuthStore valid:", pb.authStore.isValid.toString());
 
     setError(
       err?.response?.message ||
