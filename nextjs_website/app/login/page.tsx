@@ -18,7 +18,6 @@ export default function LoginPage() {
   console.log("========== LOGIN START ==========");
   console.log("Email:", email);
   console.log("PocketBase baseURL:", pb.baseURL);
-  //console.log("PocketBase authStore valid:", pb.authStore.isValid);
   console.log("Current page:", window.location.href);
   console.log("User agent:", navigator.userAgent);
 
