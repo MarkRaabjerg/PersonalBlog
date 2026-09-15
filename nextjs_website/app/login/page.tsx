@@ -13,41 +13,43 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  e.preventDefault();
 
-    console.log("========== TEST START ==========");
+  console.log("========== LOGIN START ==========");
 
-    console.log("1. Email:", email);
+  setLoading(true);
+  setError("");
 
-    console.log("2. PocketBase object:", pb);
+  try {
+    console.log("1. About to authenticate");
 
-    console.log("3. PocketBase URL:", pb.baseURL);
+    const authData = await pb
+      .collection("users")
+      .authWithPassword(email, password);
 
-    console.log("4. Window exists:", typeof window !== "undefined");
+    console.log("2. Authentication successful");
+    console.log("Token exists:", !!authData.token);
 
-    console.log("5. Current URL:", window.location.href);
+    router.push("/upload");
+  } catch (err: any) {
+    console.error("========== LOGIN FAILED ==========");
+    console.error(err);
+    console.error("name:", err?.name);
+    console.error("message:", err?.message);
+    console.error("status:", err?.status);
+    console.error("response:", err?.response);
+    console.error("data:", err?.data);
 
-    console.log("6. About to call PocketBase");
-
-    setLoading(true);
-
-    try {
-      const authData = await pb
-        .collection("users")
-        .authWithPassword(email, password);
-
-      console.log("7. LOGIN SUCCESS");
-      console.log(authData);
-
-      router.push("/upload");
-    } catch (err) {
-      console.error("7. LOGIN FAILED");
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+    setError(
+      err?.response?.message ||
+      err?.message ||
+      "Could not connect to PocketBase."
+    );
+  } finally {
+    setLoading(false);
   }
-  
+}
+
   return (
     <main className="min-h-screen bg-[#f5f5f7] text-[#1d1d1f]">
       <div className="flex min-h-screen items-center justify-center px-6">
