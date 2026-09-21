@@ -159,7 +159,7 @@ export default async function Home() {
                     sm:text-[13px]
                   "
                 >
-                  Read More
+                  Læs mere
                 </a>
               </div>
             </article>
