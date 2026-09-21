@@ -5,6 +5,7 @@ export default function AboutPage() {
                 <p className="mb-4">
                     Hej og velkommen til min blog! Her deler jeg mine oplevelser fra rejser og andre events. Jeg håber, du vil nyde at læse med og finde inspiration til dine egne eventyr.
                 </p>
+                
             </div>
         </main>
     );
