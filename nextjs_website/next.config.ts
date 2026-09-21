@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["markraabjerg.blog"],
 
+  
+
   images: {
     remotePatterns: [
       {

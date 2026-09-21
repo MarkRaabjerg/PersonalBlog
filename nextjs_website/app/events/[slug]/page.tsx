@@ -13,6 +13,7 @@ interface Props {
 
 export default async function EventPage({ params }: Props) {
   const { slug } = await params;
+  console.log("SLUG:", slug);
 
   let event: Event;
   let posts: Post[];
@@ -23,16 +24,33 @@ export default async function EventPage({ params }: Props) {
       .collection("Events")
       .getFirstListItem(`Slug="${slug}"`);
 
-    // Find all posts related to this event
-    posts = await pb.collection("Posts").getFullList<Post>({
-      filter: `Relation="${event.id}"`,
-      sort: "-Date",
-      expand: "Camera,Lens",
-    });
-    console.log("POSTS:", JSON.stringify(posts, null, 2));
-  } catch {
+    console.log("SLUG:", slug);
+
+    console.log("EVENT:", JSON.stringify(event, null, 2));
+  } catch (err) {
+    console.error("Error fetching event:", err);
     notFound();
+    console.log("Event not found for slug:", slug);;
   }
+
+  if (event) {
+    try {
+      // Find all posts related to this event
+      posts = await pb.collection("Posts").getFullList<Post>({
+        filter: `Relation="${event.id}"`,
+        sort: "-Date",
+        expand: "Camera,Lens",
+      });
+    console.log("POSTS:", JSON.stringify(posts, null, 2));
+  }  catch (err) {
+      console.error("Error fetching posts:", err);
+      posts = [];
+    }
+  }
+  else {
+    posts = [];
+  }
+
 
 const apertureIcons = [1.4, 1.7, 2, 2.8, 4, 8, 11];
 

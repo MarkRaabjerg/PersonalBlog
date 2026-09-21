@@ -1,5 +1,6 @@
 "use client";
 
+import exifr from "exifr";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { pb } from "@/lib/pocketbase";
@@ -405,7 +406,16 @@ export default function AdminPage() {
               <input
                 type="text"
                 value={eventSlug}
-                onChange={(e) => setEventSlug(e.target.value)}
+                onChange={(e) => {
+                  const slug = e.target.value
+                    .toLowerCase()
+                    .replace(/æ/g, "ae")
+                    .replace(/ø/g, "oe")
+                    .replace(/å/g, "aa")
+                    .replace(/[^a-z0-9_-]/g, "");
+
+                  setEventSlug(slug);
+                }}
                 required
                 placeholder="summer-in-copenhagen"
                 className="
@@ -574,9 +584,42 @@ export default function AdminPage() {
                 type="file"
                 accept="image/*"
                 required
-                onChange={(e) =>
-                  setPostImage(e.target.files?.[0] ?? null)
-                }
+                onChange={async (e) => {
+                  const file = e.target.files?.[0] ?? null;
+
+                  setPostImage(file);
+
+                  if (!file) return;
+
+                  try {
+                    const exif = await exifr.parse(file);
+
+                    console.log("EXIF:", exif);
+
+                    if (exif?.ExposureTime) {
+                      const exposureTime = Number(exif.ExposureTime);
+
+                      // Convert e.g. 0.004 → 1/250
+                      const denominator = Math.round(1 / exposureTime);
+
+                      setExposure(`1/${denominator}`);
+                    }
+
+                    if (exif?.ISO) {
+                      setIso(String(exif.ISO));
+                    }
+
+                    if (exif?.FNumber) {
+                      setAperture(String(exif.FNumber));
+                    }
+
+                    if (exif?.FocalLength) {
+                      setFocalLength(String(exif.FocalLength));
+                    }
+                  } catch (error) {
+                    console.error("Could not read EXIF metadata:", error);
+                  }
+                }}
                 className="
                   block
                   w-full
