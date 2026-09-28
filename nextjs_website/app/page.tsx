@@ -3,7 +3,7 @@ import type { Event } from "@/types/event";
 
 export default async function Home() {
   const events: Event[] = await pb.collection("Events").getFullList({
-    sort: "-Date",
+    sort: "-created",
   });
 
   return (
